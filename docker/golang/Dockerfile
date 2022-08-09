@@ -1,7 +1,7 @@
 FROM golang:1.18
 
-WORKDIR /var/www/html
+WORKDIR /
 
-RUN go mod download && go mod verify
+# RUN go mod download && go mod verify
 
-CMD ["go run main.go"]
+# CMD ["go run main.go"]
