@@ -1,1 +1,3 @@
 docker/mysql/data/*
+docker/golang/go.mod
+docker/golang/go.sum
