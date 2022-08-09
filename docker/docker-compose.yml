@@ -43,7 +43,7 @@ services:
     entrypoint: ["go","run","/usr/src/app/main.go"]
     volumes:
       - ../.:/usr/src/app:delegated
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     networks:
       - golang-mvc-rest-api
