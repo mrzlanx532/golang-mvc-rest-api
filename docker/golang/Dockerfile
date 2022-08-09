@@ -1,7 +1,7 @@
 FROM golang:1.18
 
-WORKDIR /
+WORKDIR /usr/src/app
 
-# RUN go mod download && go mod verify
+COPY go.mod go.sum ./
 
-# CMD ["go run main.go"]
+RUN go mod download && go mod verify

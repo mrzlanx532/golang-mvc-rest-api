@@ -37,12 +37,13 @@ services:
 
   golang:
     build:
-      context: .
-      dockerfile: ./golang/Dockerfile
+      context: ./golang
+      dockerfile: ./Dockerfile
     container_name: golang
+    entrypoint: ["go","run","/usr/src/app/main.go"]
     volumes:
-      - ../.:/var/www/html:delegated
+      - ../.:/usr/src/app:delegated
     ports:
-      - "9000:9000"
+      - "8080:8080"
     networks:
       - golang-mvc-rest-api
