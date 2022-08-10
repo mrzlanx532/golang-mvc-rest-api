@@ -1,1 +1,0 @@
-cp ./go.mod ./go.sum ./docker/golang
