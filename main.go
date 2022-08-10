@@ -5,6 +5,7 @@ import (
 	"os"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"services/users/user_create_service"
 )
 
 func main() {
@@ -12,10 +13,15 @@ func main() {
 	godotenv.Load()
 
 	router := gin.Default()
+	
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
+	})
+
+	router.POST("/api/users/create", func(ctx *gin.Context) {
+		user_create_service.Execute()
 	})
 
 	fmt.Println("test")
