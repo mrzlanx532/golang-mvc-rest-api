@@ -5,7 +5,7 @@ import (
 	"os"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"golang_rest_api/services/user_create_service"
+	"golang_rest_api/internal/service/user_create_service"
 )
 
 func main() {
