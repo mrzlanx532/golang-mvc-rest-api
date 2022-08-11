@@ -16,7 +16,6 @@ func main() {
 	router := gin.Default()
 	
 	router.GET("/ping", func(c *gin.Context) {
-		user_create_service.Execute()
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
@@ -24,18 +23,35 @@ func main() {
 
 	router.GET("/api/users/list", func(ctx *gin.Context) {
 		db, _ := db.GetConnection()
+
+		type Result struct {
+			Id int64 `json:"id"`
+			Name string `json:"name"`
+			CreatedAt string `json:"created_at"`
+			UpdatedAt string `json:"updated_at"`
+			DeletedAt *string `json:"deleted_at"`
+		}
+
+		var result Result
+
 		rows, _ := db.Raw("SELECT * FROM users").Rows()
 
-		pp.Print(rows)
+		data := []Result{}
+
+		defer rows.Close()
 
 		for rows.Next() {
-			defer rows.Close()
-			// db.ScanRows(&name)
+			db.ScanRows(rows, &result)
+			data = append(data, result)
 		}
+		
+		pp.Print(1)
+
+		ctx.JSON(200, data)
 	})
 
 	router.POST("/api/users/create", func(ctx *gin.Context) {
-		user_create_service.Execute()
+		user_create_service.Execute(ctx)
 	})
 
 	router.Run(":"+os.Getenv("PORT"))

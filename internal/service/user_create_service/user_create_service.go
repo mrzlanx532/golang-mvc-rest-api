@@ -1,8 +1,9 @@
 package user_create_service
 
 import (
-	"gorm.io/gorm"
 	"golang_rest_api/internal/util/db"
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -10,10 +11,15 @@ type User struct {
 	Name string
 }
 
-func Execute() {
+func validate(ctx *gin.Context) {
+	// TODO: Add validation to here..
+}
 
-	 db, _ := db.GetConnection()
+func Execute(ctx *gin.Context) {
 
-	 db.AutoMigrate(&User{})
-	 db.Create(&User{Name: "Denis"})
+	validate(ctx)
+
+	db, _ := db.GetConnection()
+	db.AutoMigrate(&User{})
+	db.Create(&User{Name: "Denis"})
 }
