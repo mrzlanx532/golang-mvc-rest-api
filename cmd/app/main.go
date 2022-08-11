@@ -4,9 +4,10 @@ import (
 	"golang_rest_api/internal/service/user_create_service"
 	"golang_rest_api/internal/util/db"
 	"os"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/k0kubun/pp"
+	//"github.com/k0kubun/pp"
 )
 
 func main() {
@@ -36,16 +37,19 @@ func main() {
 
 		rows, _ := db.Raw("SELECT * FROM users").Rows()
 
-		data := []Result{}
+		data := make([]Result, 0, 50)
 
 		defer rows.Close()
 
-		for rows.Next() {
+		for i:=0; rows.Next(); i++ {
 			db.ScanRows(rows, &result)
 			data = append(data, result)
 		}
 		
-		pp.Print(1)
+		//fmt.Print("%+v", data) 
+		//pp.Print(data)
+		fmt.Println(len(data))
+		fmt.Println(cap(data))
 
 		ctx.JSON(200, data)
 	})
