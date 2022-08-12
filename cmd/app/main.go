@@ -4,10 +4,8 @@ import (
 	"golang_rest_api/internal/service/user_create_service"
 	"golang_rest_api/internal/util/db"
 	"os"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	//"github.com/k0kubun/pp"
 )
 
 func main() {
@@ -46,16 +44,11 @@ func main() {
 			data = append(data, result)
 		}
 		
-		//fmt.Print("%+v", data) 
-		//pp.Print(data)
-		fmt.Println(len(data))
-		fmt.Println(cap(data))
-
 		ctx.JSON(200, data)
 	})
 
 	router.POST("/api/users/create", func(ctx *gin.Context) {
-		user_create_service.Execute(ctx)
+		user_create_service.Handle(ctx)
 	})
 
 	router.Run(":"+os.Getenv("PORT"))

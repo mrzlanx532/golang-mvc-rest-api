@@ -29,7 +29,7 @@ func validate(ctx *gin.Context) {
 	}
 }
 
-func Execute(ctx *gin.Context) {
+func Handle(ctx *gin.Context) {
 
 	validate(ctx)
 
