@@ -40,9 +40,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     container_name: golang
-    entrypoint: ["go","run","/usr/src/app/cmd/app/main.go"]
     volumes:
       - .:/usr/src/app:delegated
+    entrypoint: /usr/scr/app/.docker/golang/entrypoint.sh
     expose:
       - "8080"
     networks:
