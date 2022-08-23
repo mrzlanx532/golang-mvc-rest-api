@@ -1,11 +1,11 @@
-package user_create_service
+package user_update_service
 
 import (
 	"fmt"
-	"golang_rest_api/internal/util/db"
+	//"golang_rest_api/internal/util/db"
 	"net/http"
 	"github.com/gin-gonic/gin"
-	"golang_rest_api/internal/model"
+	//"golang_rest_api/internal/model"
 )
 
 type RequestData struct {
@@ -31,12 +31,5 @@ func validate(ctx *gin.Context) {
 
 func Handle(ctx *gin.Context) {
 
-	validate(ctx)
-
-	db, _ := db.GetConnection()
-	db.Create(&model.User{Name: requestData.Name})
-
-	ctx.JSON(200, gin.H{
-		"status": true,
-	})
+	// TODO: to-do-do
 }

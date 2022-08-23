@@ -2,6 +2,8 @@ package main
 
 import (
 	"golang_rest_api/internal/service/user_create_service"
+	"golang_rest_api/internal/service/user_update_service"
+	"golang_rest_api/internal/service/user_delete_service"
 	"golang_rest_api/internal/util/db"
 	"os"
 	"github.com/gin-gonic/gin"
@@ -33,7 +35,7 @@ func main() {
 
 		var result Result
 
-		rows, _ := db.Raw("SELECT * FROM users").Rows()
+		rows, _ := db.Raw("SELECT * FROM users WHERE deleted_at is NULL").Rows()
 
 		data := make([]Result, 0, 50)
 
@@ -49,6 +51,14 @@ func main() {
 
 	router.POST("/api/users/create", func(ctx *gin.Context) {
 		user_create_service.Handle(ctx)
+	})
+
+	router.POST("/api/users/update", func(ctx *gin.Context) {
+		user_update_service.Handle(ctx)
+	})
+
+	router.POST("/api/users/delete", func(ctx *gin.Context) {
+		user_delete_service.Handle(ctx)
 	})
 
 	router.Run(":"+os.Getenv("PORT"))

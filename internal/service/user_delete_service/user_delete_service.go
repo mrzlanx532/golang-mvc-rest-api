@@ -1,4 +1,4 @@
-package user_create_service
+package user_delete_service
 
 import (
 	"fmt"
@@ -9,14 +9,13 @@ import (
 )
 
 type RequestData struct {
-	Name string `form:"name" json:"name" binding:"required"`
+	ID uint `form:"id" json:"id" binding:"required"`
 }
 
 var requestData RequestData
 
 func validate(ctx *gin.Context) {
 	
-	fmt.Print("hello")
 	err := ctx.ShouldBind(&requestData)
 
 	if err!= nil {
@@ -34,7 +33,7 @@ func Handle(ctx *gin.Context) {
 	validate(ctx)
 
 	db, _ := db.GetConnection()
-	db.Create(&model.User{Name: requestData.Name})
+	db.Delete(&model.User{}, requestData.ID)
 
 	ctx.JSON(200, gin.H{
 		"status": true,
