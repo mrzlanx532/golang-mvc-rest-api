@@ -6,7 +6,7 @@ networks:
 services:
   nginx:
     image: nginx:stable-alpine
-    container_name: nginx
+    container_name: nginx_golang_mvc_rest_api
     ports:
       - "80:80"
     volumes:
@@ -21,7 +21,7 @@ services:
   mysql:
     image: mysql:8.0
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    container_name: mysql
+    container_name: mysql_golang_mvc_rest_api
     tty: true
     ports:
       - "3306:3306"
@@ -39,7 +39,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: golang
+    container_name: golang_golang_mvc_rest_api
     volumes:
       - .:/usr/src/app:delegated
     entrypoint: /usr/scr/app/.docker/golang/entrypoint.sh

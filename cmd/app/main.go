@@ -1,18 +1,20 @@
 package main
 
 import (
-	"golang_rest_api/internal/service/user_create_service"
-	"golang_rest_api/internal/service/user_update_service"
-	"golang_rest_api/internal/service/user_delete_service"
-	"golang_rest_api/internal/util/db"
-	"os"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"golang_rest_api/internal/service/user_create_service"
+	"golang_rest_api/internal/service/user_delete_service"
+	"golang_rest_api/internal/service/user_update_service"
+	"golang_rest_api/internal/util/db"
+	"os"
 )
 
 func main() {
 
 	godotenv.Load()
+
+	//gin.SetMode(gin.ReleaseMode)
 
 	router := gin.Default()
 	
@@ -21,6 +23,8 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	// db.GetConnection()
 
 	router.GET("/api/users/list", func(ctx *gin.Context) {
 		db, _ := db.GetConnection()

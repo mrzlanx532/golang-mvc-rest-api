@@ -1,5 +1,5 @@
 CREATE TABLE `users` (
-    `id` BIGINT unsigned PRIMARY KEY,
+    `id` BIGINT unsigned PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
     `email` varchar(255) NOT NULL,
     `password` varchar(255) NOT NULL,
