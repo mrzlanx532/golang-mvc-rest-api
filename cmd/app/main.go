@@ -24,10 +24,9 @@ func main() {
 		})
 	})
 
-	// db.GetConnection()
+	dbConnection, _ := db.GetConnection()
 
 	router.GET("/api/users/list", func(ctx *gin.Context) {
-		db, _ := db.GetConnection()
 
 		type Result struct {
 			Id int64 `json:"id"`
@@ -39,14 +38,14 @@ func main() {
 
 		var result Result
 
-		rows, _ := db.Raw("SELECT * FROM users WHERE deleted_at is NULL").Rows()
+		rows, _ := dbConnection.Raw("SELECT * FROM users WHERE deleted_at is NULL").Rows()
 
 		data := make([]Result, 0, 50)
 
 		defer rows.Close()
 
 		for i:=0; rows.Next(); i++ {
-			db.ScanRows(rows, &result)
+			dbConnection.ScanRows(rows, &result)
 			data = append(data, result)
 		}
 		

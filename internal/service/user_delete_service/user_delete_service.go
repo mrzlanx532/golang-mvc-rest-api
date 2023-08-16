@@ -32,8 +32,8 @@ func Handle(ctx *gin.Context) {
 
 	validate(ctx)
 
-	db, _ := db.GetConnection()
-	db.Delete(&model.User{}, requestData.ID)
+	dbConnection, _ := db.GetConnection()
+	dbConnection.Delete(&model.User{}, requestData.ID)
 
 	ctx.JSON(200, gin.H{
 		"status": true,
