@@ -2,10 +2,10 @@ package user_delete_service
 
 import (
 	"fmt"
-	"golang_rest_api/internal/util/db"
-	"net/http"
 	"github.com/gin-gonic/gin"
 	"golang_rest_api/internal/model"
+	"golang_rest_api/internal/util/db"
+	"net/http"
 )
 
 type RequestData struct {
@@ -15,16 +15,16 @@ type RequestData struct {
 var requestData RequestData
 
 func validate(ctx *gin.Context) {
-	
+
 	err := ctx.ShouldBind(&requestData)
 
-	if err!= nil {
+	if err != nil {
 		fmt.Println(err)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest,
-		gin.H{
-			"error": "Valid error",
-			"message": "Invalid inputs",
-		})
+			gin.H{
+				"error":   "Valid error",
+				"message": "Invalid inputs",
+			})
 	}
 }
 

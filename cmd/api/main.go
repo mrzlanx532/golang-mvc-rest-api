@@ -13,12 +13,18 @@ import (
 
 func main() {
 
-	godotenv.Load()
+	err := godotenv.Load()
 
-	//gin.SetMode(gin.ReleaseMode)
+	if err != nil {
+		panic("Не найден .env файл")
+	}
+
+	if os.Getenv("APP_ENV") == "prod" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	router := gin.Default()
-	
+
 	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -41,5 +47,9 @@ func main() {
 		user_delete_service.Handle(ctx)
 	})
 
-	router.Run(":"+os.Getenv("PORT"))
+	err = router.Run(":" + os.Getenv("PORT"))
+
+	if err != nil {
+		panic(err)
+	}
 }

@@ -3,27 +3,27 @@ package user_create_service
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"golang_rest_api/internal/model"
 	"golang_rest_api/internal/util/db"
 	"net/http"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type ApiError struct {
-	Field string
+	Field   string
 	Message string
 }
 
 type RequestData struct {
-	Name string `form:"name" json:"name" binding:"required,max=255"`
-	Email string `form:"email" json:"email" binding:"required,email"`
+	Name     string `form:"name" json:"name" binding:"required,max=255"`
+	Email    string `form:"email" json:"email" binding:"required,email"`
 	Password string `form:"password" json:"password" binding:"required,max=255,min=8"`
 }
 
 var requestData RequestData
 
 func validate(ctx *gin.Context) bool {
-	
+
 	err := ctx.ShouldBind(&requestData)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func validate(ctx *gin.Context) bool {
 		ctx.AbortWithStatusJSON(
 			http.StatusLocked,
 			gin.H{
-				"errors": "Validation error",
+				"errors":  "Validation error",
 				"message": err.Error(),
 			})
 
@@ -52,8 +52,8 @@ func Handle(ctx *gin.Context) {
 
 	dbConnection, _ := db.GetInstance()
 	dbConnection.Create(&model.User{
-		Name: requestData.Name,
-		Email: requestData.Email,
+		Name:     requestData.Name,
+		Email:    requestData.Email,
 		Password: string(password),
 	})
 
