@@ -50,7 +50,7 @@ func Handle(ctx *gin.Context) {
 
 	password, _ := bcrypt.GenerateFromPassword([]byte(requestData.Password), 14)
 
-	dbConnection, _ := db.GetConnection()
+	dbConnection, _ := db.GetInstance()
 	dbConnection.Create(&model.User{
 		Name: requestData.Name,
 		Email: requestData.Email,

@@ -10,7 +10,15 @@ import (
 
 var dbConnectionInstance *gorm.DB = nil
 
-func GetConnection() (*gorm.DB, error) {
+func init() {
+	_, e := GetInstance()
+
+	if e != nil {
+		panic("Не удается установить соединение с базой данных")
+	}
+}
+
+func GetInstance() (*gorm.DB, error) {
 	if dbConnectionInstance == nil {
 
 		dsn := os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASSWORD") + "@tcp(" + os.Getenv("DB_HOST") + ":" + os.Getenv("DB_PORT") + ")/" + os.Getenv("DB_NAME") + "?charset=utf8mb4&parseTime=True&loc=Local"

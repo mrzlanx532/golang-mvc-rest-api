@@ -32,7 +32,7 @@ func Handle(ctx *gin.Context) {
 
 	validate(ctx)
 
-	dbConnection, _ := db.GetConnection()
+	dbConnection, _ := db.GetInstance()
 	dbConnection.Delete(&model.User{}, requestData.ID)
 
 	ctx.JSON(200, gin.H{

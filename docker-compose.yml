@@ -43,6 +43,8 @@ services:
     volumes:
       - .:/usr/src/app:delegated
     entrypoint: /usr/scr/app/.docker/golang/entrypoint.sh
+    depends_on:
+      - mysql
     expose:
       - "8080"
     networks:
