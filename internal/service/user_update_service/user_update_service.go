@@ -3,20 +3,24 @@ package user_update_service
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	//"golang_rest_api/internal/util/db"
+	"golang.org/x/crypto/bcrypt"
+	"golang_rest_api/internal/model"
+	"golang_rest_api/internal/util/db"
 	"net/http"
-	//"golang_rest_api/internal/model"
 )
 
 type RequestData struct {
-	Name string `form:"name" json:"name" binding:"required"`
+	Id       int     `form:"id" json:"id" binding:"required"`
+	Name     string  `form:"name" json:"name" binding:"required"`
+	Email    string  `form:"email" json:"email" binding:"required,email"`
+	Password *string `form:"password" json:"password" binding:"max=255,min=8"`
 }
 
 var requestData RequestData
+var user model.User
 
-func validate(ctx *gin.Context) {
+func validate(ctx *gin.Context) bool {
 
-	fmt.Print("hello")
 	err := ctx.ShouldBind(&requestData)
 
 	if err != nil {
@@ -26,10 +30,32 @@ func validate(ctx *gin.Context) {
 				"error":   "Valid error",
 				"message": "Invalid inputs",
 			})
+
+		return false
 	}
+
+	return true
 }
 
 func Handle(ctx *gin.Context) {
+	if validate(ctx) == false {
+		return
+	}
 
-	// TODO: to-do-do
+	dbConnection, _ := db.GetInstance()
+	dbConnection.First(&user, requestData.Id)
+
+	user.Name = requestData.Name
+	user.Email = requestData.Email
+
+	if requestData.Password != nil {
+		password, _ := bcrypt.GenerateFromPassword([]byte(*requestData.Password), 14)
+		user.Password = string(password)
+	}
+
+	dbConnection.Save(user)
+
+	ctx.JSON(200, gin.H{
+		"status": true,
+	})
 }
