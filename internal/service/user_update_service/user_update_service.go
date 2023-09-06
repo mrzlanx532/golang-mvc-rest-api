@@ -13,7 +13,7 @@ type RequestData struct {
 	Id       int     `form:"id" json:"id" binding:"required"`
 	Name     string  `form:"name" json:"name" binding:"required"`
 	Email    string  `form:"email" json:"email" binding:"required,email"`
-	Password *string `form:"password" json:"password" binding:"max=255,min=8"`
+	Password *string `form:"password" json:"password" binding:"omitempty,max=255,min=8"`
 }
 
 var requestData RequestData
