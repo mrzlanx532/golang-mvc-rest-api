@@ -8,19 +8,19 @@ import (
 	"os"
 )
 
-var dbConnectionInstance *gorm.DB = nil
+var dbConnectionInstance *gorm.DB
 
 func GetInstance() (*gorm.DB, error) {
 	if dbConnectionInstance == nil {
 
 		dsn := os.Getenv("DB_USER") + ":" + os.Getenv("DB_PASSWORD") + "@tcp(" + os.Getenv("DB_HOST") + ":" + os.Getenv("DB_PORT") + ")/" + os.Getenv("DB_NAME") + "?charset=utf8mb4&parseTime=True&loc=Local"
-		dbConnectionInstance, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		dbConnectionInstanceLocal, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 		if err != nil {
 			return nil, err
 		}
 
-		dbConfiguration, err := dbConnectionInstance.DB()
+		dbConfiguration, err := dbConnectionInstanceLocal.DB()
 
 		if err != nil {
 			fmt.Println(err)
@@ -33,10 +33,10 @@ func GetInstance() (*gorm.DB, error) {
 		dbConfiguration.SetMaxOpenConns(100)
 		dbConfiguration.SetConnMaxLifetime(60 * 5)
 
+		dbConnectionInstance = dbConnectionInstanceLocal
+
 		return dbConnectionInstance, nil
 	}
-
-	log.Println("Соединение уже установлено")
 
 	return dbConnectionInstance, nil
 }
