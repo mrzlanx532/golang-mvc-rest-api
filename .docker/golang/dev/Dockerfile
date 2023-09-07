@@ -2,7 +2,7 @@ FROM golang:1.18
 
 WORKDIR /usr/src/app
 
-COPY go.mod go.sum ./
+COPY ../../../go.mod ../../../go.sum ./
 
 COPY ./.docker/golang/entrypoint.sh /usr/scr/app/.docker/golang/entrypoint.sh
 
