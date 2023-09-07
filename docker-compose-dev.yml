@@ -37,7 +37,7 @@ services:
 
   golang:
     build:
-      dockerfile: golang/dev/Dockerfile
+      dockerfile: ./.docker/golang/dev/Dockerfile
     container_name: golang_golang_mvc_rest_api
     volumes:
       - .:/usr/src/app:delegated
