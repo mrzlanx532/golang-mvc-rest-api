@@ -2,26 +2,15 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"golang_rest_api/internal/list/user_list"
+	_ "golang_rest_api/internal/service"
 	"golang_rest_api/internal/service/user_create_service"
 	"golang_rest_api/internal/service/user_delete_service"
 	"golang_rest_api/internal/service/user_update_service"
-	_ "golang_rest_api/internal/util/db"
 	"os"
 )
 
 func main() {
-
-	err := godotenv.Load()
-
-	if err != nil {
-		panic("Не найден .env файл")
-	}
-
-	if os.Getenv("APP_ENV") == "prod" {
-		gin.SetMode(gin.ReleaseMode)
-	}
 
 	router := gin.Default()
 
@@ -47,7 +36,7 @@ func main() {
 		user_delete_service.Handle(ctx)
 	})
 
-	err = router.Run(":" + os.Getenv("PORT"))
+	err := router.Run(":" + os.Getenv("PORT"))
 
 	if err != nil {
 		panic(err)
