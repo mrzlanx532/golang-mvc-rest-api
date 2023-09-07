@@ -1,13 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"golang_rest_api/internal/list/user_list"
+	"golang_rest_api/internal/controller"
 	_ "golang_rest_api/internal/service"
-	"golang_rest_api/internal/service/user_create_service"
-	"golang_rest_api/internal/service/user_delete_service"
-	"golang_rest_api/internal/service/user_update_service"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -20,25 +20,27 @@ func main() {
 		})
 	})
 
-	router.GET("/api/users/list", func(ctx *gin.Context) {
-		user_list.Handle(ctx)
-	})
+	userController := controller.UserController{}
 
-	router.POST("/api/users/create", func(ctx *gin.Context) {
-		user_create_service.Handle(ctx)
-	})
-
-	router.POST("/api/users/update", func(ctx *gin.Context) {
-		user_update_service.Handle(ctx)
-	})
-
-	router.POST("/api/users/delete", func(ctx *gin.Context) {
-		user_delete_service.Handle(ctx)
-	})
+	router.GET("/api/users/list", userController.List())
+	router.POST("/api/users/create", userController.Create())
+	router.POST("/api/users/update", userController.Update())
+	router.POST("/api/users/delete", userController.Delete())
 
 	err := router.Run(":" + os.Getenv("PORT"))
 
 	if err != nil {
 		panic(err)
 	}
+
+	gracefulShutdown()
+}
+
+func gracefulShutdown() {
+	signalChannel := make(chan os.Signal, 1)
+	signal.Notify(signalChannel, syscall.SIGINT, syscall.SIGTERM)
+
+	_ = <-signalChannel
+
+	fmt.Println("Завершение приложения")
 }
