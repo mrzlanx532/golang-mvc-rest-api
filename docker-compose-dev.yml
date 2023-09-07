@@ -41,9 +41,12 @@ services:
     container_name: golang_golang_mvc_rest_api
     volumes:
       - .:/usr/src/app:delegated
+    entrypoint: /usr/scr/app/.docker/golang/dev/entrypoint.sh
     depends_on:
       - mysql
-    expose:
-      - "8080"
+    ports:
+      - "2345:2345"
+      - "8080:8080"
+    command: "--listen=:2345 --headless=true --log=true --log-output=debugger,debuglineerr,gdbwire,lldbout,rpc --accept-multiclient --api-version=2 exec /usr/src/app/cmd/api/main"
     networks:
       - golang-mvc-rest-api
