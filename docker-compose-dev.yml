@@ -37,12 +37,10 @@ services:
 
   golang:
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      dockerfile: golang/dev/Dockerfile
     container_name: golang_golang_mvc_rest_api
     volumes:
       - .:/usr/src/app:delegated
-    entrypoint: /usr/scr/app/.docker/golang/entrypoint.sh
     depends_on:
       - mysql
     expose:
