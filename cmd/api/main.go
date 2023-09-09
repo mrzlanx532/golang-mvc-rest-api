@@ -22,10 +22,10 @@ func main() {
 
 	userController := controller.UserController{}
 
-	router.GET("/api/users/list", userController.List())
-	router.POST("/api/users/create", userController.Create())
-	router.POST("/api/users/update", userController.Update())
-	router.POST("/api/users/delete", userController.Delete())
+	router.GET("/api/users/list", userController.List)
+	router.POST("/api/users/create", userController.Create)
+	router.POST("/api/users/update", userController.Update)
+	router.POST("/api/users/delete", userController.Delete)
 
 	err := router.Run(":" + os.Getenv("PORT"))
 

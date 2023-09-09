@@ -11,26 +11,18 @@ import (
 type UserController struct {
 }
 
-func (uc UserController) List() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		user_list.Handle(c)
-	}
+func (uc UserController) List(c *gin.Context) {
+	user_list.Handle(c)
 }
 
-func (uc UserController) Create() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		user_create_service.Handle(c)
-	}
+func (uc UserController) Create(c *gin.Context) {
+	user_create_service.Handle(c)
 }
 
-func (uc UserController) Update() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		user_update_service.Handle(c)
-	}
+func (uc UserController) Update(c *gin.Context) {
+	user_update_service.Handle(c)
 }
 
-func (uc UserController) Delete() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		user_delete_service.Handle(c)
-	}
+func (uc UserController) Delete(c *gin.Context) {
+	user_delete_service.Handle(c)
 }

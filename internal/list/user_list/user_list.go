@@ -7,10 +7,10 @@ import (
 
 func Handle(ctx *gin.Context) {
 	type Result struct {
-		Id int64 `json:"id"`
-		Name string `json:"name"`
-		CreatedAt string `json:"created_at"`
-		UpdatedAt string `json:"updated_at"`
+		Id        int64   `json:"id"`
+		Name      string  `json:"name"`
+		CreatedAt string  `json:"created_at"`
+		UpdatedAt string  `json:"updated_at"`
 		DeletedAt *string `json:"deleted_at"`
 	}
 
@@ -24,7 +24,7 @@ func Handle(ctx *gin.Context) {
 
 	defer rows.Close()
 
-	for i:=0; rows.Next(); i++ {
+	for i := 0; rows.Next(); i++ {
 		dbConnection.ScanRows(rows, &result)
 		data = append(data, result)
 	}
