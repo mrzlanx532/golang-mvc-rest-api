@@ -14,7 +14,6 @@ func NewUpdateService() *UpdateService {
 }
 
 type UpdateService struct {
-	updateServiceRequestData
 }
 
 type updateServiceRequestData struct {
@@ -47,9 +46,7 @@ func (us UpdateService) validate(ctx *gin.Context) bool {
 
 func (us UpdateService) Handle(ctx *gin.Context) {
 
-	userUpdateService := NewUpdateService()
-
-	if userUpdateService.validate(ctx) == false {
+	if us.validate(ctx) == false {
 		return
 	}
 

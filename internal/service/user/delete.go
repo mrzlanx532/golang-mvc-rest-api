@@ -13,7 +13,6 @@ func NewDeleteService() *DeleteService {
 }
 
 type DeleteService struct {
-	deleteServiceRequestData
 }
 
 type deleteServiceRequestData struct {
@@ -42,9 +41,7 @@ func (ds DeleteService) validate(ctx *gin.Context) bool {
 
 func (ds DeleteService) Handle(ctx *gin.Context) {
 
-	userDeleteService := NewDeleteService()
-
-	if userDeleteService.validate(ctx) == false {
+	if ds.validate(ctx) == false {
 		return
 	}
 

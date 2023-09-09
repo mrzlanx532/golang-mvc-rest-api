@@ -20,7 +20,6 @@ type createServiceRequestData struct {
 }
 
 type CreateService struct {
-	createServiceRequestData
 }
 
 var createServiceRequestDataLocal createServiceRequestData
