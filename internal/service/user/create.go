@@ -25,7 +25,7 @@ type CreateService struct {
 
 var createServiceRequestDataLocal createServiceRequestData
 
-func (ucs CreateService) validate(ctx *gin.Context) bool {
+func (cs CreateService) validate(ctx *gin.Context) bool {
 
 	err := ctx.ShouldBind(&createServiceRequestDataLocal)
 
@@ -45,7 +45,7 @@ func (ucs CreateService) validate(ctx *gin.Context) bool {
 	return true
 }
 
-func (ucs CreateService) Handle(ctx *gin.Context) {
+func (cs CreateService) Handle(ctx *gin.Context) {
 
 	userCreateService := NewCreateService()
 
