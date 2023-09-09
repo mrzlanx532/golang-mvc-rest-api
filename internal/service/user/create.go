@@ -47,9 +47,7 @@ func (cs CreateService) validate(ctx *gin.Context) bool {
 
 func (cs CreateService) Handle(ctx *gin.Context) {
 
-	userCreateService := NewCreateService()
-
-	if userCreateService.validate(ctx) == false {
+	if cs.validate(ctx) == false {
 		return
 	}
 
