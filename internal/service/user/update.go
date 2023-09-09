@@ -1,4 +1,4 @@
-package user_update_service
+package user
 
 import (
 	"fmt"
@@ -9,19 +9,27 @@ import (
 	"net/http"
 )
 
-type RequestData struct {
+func NewUpdateService() *UpdateService {
+	return &UpdateService{}
+}
+
+type UpdateService struct {
+	updateServiceRequestData
+}
+
+type updateServiceRequestData struct {
 	Id       int     `form:"id" json:"id" binding:"required"`
 	Name     string  `form:"name" json:"name" binding:"required"`
 	Email    string  `form:"email" json:"email" binding:"required,email"`
 	Password *string `form:"password" json:"password" binding:"omitempty,max=255,min=8"`
 }
 
-var requestData RequestData
+var updateServiceRequestDataLocal updateServiceRequestData
 var user model.User
 
-func validate(ctx *gin.Context) bool {
+func (us UpdateService) validate(ctx *gin.Context) bool {
 
-	err := ctx.ShouldBind(&requestData)
+	err := ctx.ShouldBind(&updateServiceRequestDataLocal)
 
 	if err != nil {
 		fmt.Println(err)
@@ -37,19 +45,22 @@ func validate(ctx *gin.Context) bool {
 	return true
 }
 
-func Handle(ctx *gin.Context) {
-	if validate(ctx) == false {
+func (us UpdateService) Handle(ctx *gin.Context) {
+
+	userUpdateService := NewUpdateService()
+
+	if userUpdateService.validate(ctx) == false {
 		return
 	}
 
 	dbConnection, _ := db.GetInstance()
-	dbConnection.First(&user, requestData.Id)
+	dbConnection.First(&user, updateServiceRequestDataLocal.Id)
 
-	user.Name = requestData.Name
-	user.Email = requestData.Email
+	user.Name = updateServiceRequestDataLocal.Name
+	user.Email = updateServiceRequestDataLocal.Email
 
-	if requestData.Password != nil {
-		password, _ := bcrypt.GenerateFromPassword([]byte(*requestData.Password), 14)
+	if updateServiceRequestDataLocal.Password != nil {
+		password, _ := bcrypt.GenerateFromPassword([]byte(*updateServiceRequestDataLocal.Password), 14)
 		user.Password = string(password)
 	}
 
