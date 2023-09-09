@@ -20,9 +20,9 @@ func Handle(ctx *gin.Context) {
 
 	rows, _ := dbConnection.Raw("SELECT * FROM users WHERE deleted_at is NULL").Rows()
 
-	data := make([]Result, 0, 50)
-
 	defer rows.Close()
+
+	data := make([]Result, 0, 50)
 
 	for i := 0; rows.Next(); i++ {
 		dbConnection.ScanRows(rows, &result)
